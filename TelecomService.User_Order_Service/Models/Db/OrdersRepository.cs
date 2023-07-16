@@ -32,19 +32,25 @@ namespace TelecomService.User_Order_Service.Models.Db
         public async Task<Order> Get(int id)
         {
             var order = await Set.FindAsync(id);
-            order.Product = _db.Products.FirstOrDefault(p => p.Id == order.ProductId);
+            var list = (IQueryable<Product>) (from op in _db.Orders_Products
+                                        join p in _db.Products on op.ProductId equals p.Id
+                                        where op.OrderId == order.Id
+                                        select p);
+            foreach (var item in list) 
+            {
+                order.Products.Add(item);
+            }
             return order;
         }
 
         public async Task<IEnumerable<Order>> GetAll()
         {
-            return await Set.OrderBy(o => o.Pr_count * o.Product.Price).ToListAsync();
+            return await Set.ToListAsync();
+           // return await Set.OrderBy(o => o.Products.Sum(p => p.Price)).ToListAsync();
         }
 
         public async Task Update(Order item, Order newItem)
         {
-            item.ProductId = newItem.ProductId;
-            item.Product = newItem.Product;
             item.Date = newItem.Date;
             item.Address = newItem.Address;
             item.Status = newItem.Status;

@@ -4,7 +4,7 @@
     {
         public int Number { get; set; }
         public int CountOfProducts { get; set; }
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
         public string Status { get; set; }
         public string Address { get; set; }
     }

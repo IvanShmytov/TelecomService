@@ -67,8 +67,19 @@ namespace TelecomService.User_Order_Service.Models.Db
 
         public async Task<IEnumerable<OrderViewModel>> GetStoryOfOrders (Client item)
         {
-            var storyOfOrders = _db.Orders.Where(o => o.ClientId ==item.Id).Select(o => new OrderViewModel { Number = o.Id, CountOfProducts = o.Pr_count, 
-                TotalPrice = o.Pr_count * (int)o.Product.Price, Status = o.Status, Address = o.Address }).OrderBy(o => o.TotalPrice);
+            var storyOfOrders = await _db.Orders.Where(o => o.ClientId ==item.Id).Select(o => new OrderViewModel { Number = o.Id, 
+                Status = o.Status, Address = o.Address, 
+                CountOfProducts = (from or in _db.Orders
+                                   join op in _db.Orders_Products on or.Id equals op.OrderId
+                                   join p in _db.Products on op.ProductId equals p.Id
+                                   where or.ClientId == item.Id
+                                   select p).Count(),
+                TotalPrice = (from or in _db.Orders
+                              join op in _db.Orders_Products on or.Id equals op.OrderId
+                              join p in _db.Products on op.ProductId equals p.Id
+                              where or.ClientId == item.Id
+                              select p.Price).Sum()
+            }).ToListAsync();
             return storyOfOrders;
         }
         public string Encrypt(string text)
