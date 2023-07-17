@@ -72,14 +72,14 @@ namespace TelecomService.User_Order_Service.Models.Db
                 CountOfProducts = (from or in _db.Orders
                                    join op in _db.Orders_Products on or.Id equals op.OrderId
                                    join p in _db.Products on op.ProductId equals p.Id
-                                   where or.ClientId == item.Id
+                                   where or.ClientId == item.Id && or.Id == o.Id
                                    select p).Count(),
                 TotalPrice = (from or in _db.Orders
                               join op in _db.Orders_Products on or.Id equals op.OrderId
                               join p in _db.Products on op.ProductId equals p.Id
-                              where or.ClientId == item.Id
+                              where or.ClientId == item.Id && or.Id == o.Id
                               select p.Price).Sum()
-            }).ToListAsync();
+            }).OrderBy(ovm => ovm.TotalPrice).ToListAsync();
             return storyOfOrders;
         }
         public string Encrypt(string text)

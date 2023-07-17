@@ -34,19 +34,18 @@ namespace TelecomService.User_Order_Service.Models.Db
             var order = await Set.FindAsync(id);
             var list = (IQueryable<Product>) (from op in _db.Orders_Products
                                         join p in _db.Products on op.ProductId equals p.Id
-                                        where op.OrderId == order.Id
-                                        select p);
+                                        where op.OrderId == order.Id 
+                                        select p).OrderBy(p => p.Price);
             foreach (var item in list) 
             {
                 order.Products.Add(item);
-            }
+            }    
             return order;
         }
 
         public async Task<IEnumerable<Order>> GetAll()
         {
-            return await Set.ToListAsync();
-           // return await Set.OrderBy(o => o.Products.Sum(p => p.Price)).ToListAsync();
+            return await Set.OrderBy(o => o.Date).ToListAsync();
         }
 
         public async Task Update(Order item, Order newItem)

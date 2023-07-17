@@ -37,7 +37,7 @@ namespace TelecomService.User_Order_Service.Models.Db
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await Set.ToListAsync();
+            return await Set.OrderBy(p => p.Price).ToListAsync();
         }
 
         public async Task Update(Product item, Product newItem)
