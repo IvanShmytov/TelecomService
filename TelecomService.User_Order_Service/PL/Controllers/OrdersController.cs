@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using TelecomService.User_Order_Service.Models.Db;
+using TelecomService.Models;
+using TelecomService.User_Order_Service.BLL;
 
-namespace TelecomService.User_Order_Service.Controllers
+namespace TelecomService.User_Order_Service.PL.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class OrdersController : Controller
     {
-        private readonly IRepository<Order> _repo;
+        private readonly IOrderRepository _repo;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IRepository<Order> repo)
+        public OrdersController(IOrderRepository repo, ILogger<OrdersController> logger)
         {
             _repo = repo;
+            _logger = logger;
+            _logger.LogDebug(1, "NLog injected into OrdersController");
         }
         /// <summary>
         /// Return all orders
@@ -23,6 +27,7 @@ namespace TelecomService.User_Order_Service.Controllers
         public async Task<IActionResult> GetAll()
         {
             var orders = await _repo.GetAll();
+            _logger.LogInformation("OrdersController - GetAll");
             return StatusCode(200, orders);
         }
         /// <summary>
@@ -33,6 +38,7 @@ namespace TelecomService.User_Order_Service.Controllers
         public async Task<IActionResult> GetOrderById([FromRoute] int id)
         {
             var order = await _repo.Get(id);
+            _logger.LogInformation("OrdersController - GetOrderById");
             return StatusCode(200, order);
         }
         /// <summary>
@@ -43,6 +49,7 @@ namespace TelecomService.User_Order_Service.Controllers
         public async Task<IActionResult> Add ([FromBody] Order newOrder)
         {
             await _repo.Add(newOrder);
+            _logger.LogInformation("OrdersController - Add");
             return StatusCode(201, $"Заказ {newOrder.Id} добавлен в корзину.");
         }
         /// <summary>
@@ -54,7 +61,8 @@ namespace TelecomService.User_Order_Service.Controllers
         {
             var order = await _repo.Get(id);
             await _repo.Delete(order);
-            return StatusCode(204, $"Заказ удален.");
+            _logger.LogInformation("OrdersController - Delete");
+            return StatusCode(204);
         }
         /// <summary>
         /// Update order
@@ -65,7 +73,8 @@ namespace TelecomService.User_Order_Service.Controllers
         {
             var order = await _repo.Get(id);
             await _repo.Update(order, newOrder);
-            return StatusCode(200, $"Заказ {order.Id} обновлен!");
+            _logger.LogInformation("OrdersController - Update");
+            return StatusCode(204);
         }
     }
 }

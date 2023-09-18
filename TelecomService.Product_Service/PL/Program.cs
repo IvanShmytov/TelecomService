@@ -9,7 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TelecomService.Searching_Service
+
+namespace TelecomService.Product_Service.PL
 {
     public class Program
     {

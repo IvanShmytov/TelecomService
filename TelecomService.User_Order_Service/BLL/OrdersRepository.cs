@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TelecomService.Models;
+using TelecomService.User_Order_Service.DAL;
 
-namespace TelecomService.User_Order_Service.Models.Db
+namespace TelecomService.User_Order_Service.BLL
 {
-    public class OrdersRepository : IRepository<Order>
+    public class OrdersRepository : IOrderRepository
     {
         protected BlogContext _db;
         public DbSet<Order> Set { get; private set; }
@@ -53,18 +55,8 @@ namespace TelecomService.User_Order_Service.Models.Db
             item.Date = newItem.Date;
             item.Address = newItem.Address;
             item.Status = newItem.Status;
-            Set.Update(item);
             await _db.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<OrderViewModel>> GetStoryOfOrders(Order item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<Order> GetByName(string Name)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

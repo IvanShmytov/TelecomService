@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelecomService.User_Order_Service", "TelecomService.User_Order_Service\TelecomService.User_Order_Service.csproj", "{54C5F357-81D5-429E-BB5A-CE181441667F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelecomService.Product_Service", "TelecomService.Product_Service\TelecomService.Product_Service.csproj", "{2562DFBF-9913-4E0A-AB23-A8AD804C46D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9} = {811E31AA-A98D-44D2-8BBE-121D86A61DB9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelecomService.Product_Service", "TelecomService.Product_Service\TelecomService.Product_Service.csproj", "{2562DFBF-9913-4E0A-AB23-A8AD804C46D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelecomService.Searching_Service", "TelecomService.Searching_Service\TelecomService.Searching_Service.csproj", "{567FC066-C305-45F8-BDE0-33C44446989E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9} = {811E31AA-A98D-44D2-8BBE-121D86A61DB9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelecomService.Searching_Service", "TelecomService.Searching_Service\TelecomService.Searching_Service.csproj", "{567FC066-C305-45F8-BDE0-33C44446989E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelecomService.Models", "TelecomService.Models\TelecomService.Models.csproj", "{811E31AA-A98D-44D2-8BBE-121D86A61DB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelecomService.User_Order_Service", "TelecomService.User_Order_Service\TelecomService.User_Order_Service.csproj", "{A750A556-5281-43ED-826A-58A36B50A7F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{54C5F357-81D5-429E-BB5A-CE181441667F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54C5F357-81D5-429E-BB5A-CE181441667F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54C5F357-81D5-429E-BB5A-CE181441667F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54C5F357-81D5-429E-BB5A-CE181441667F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2562DFBF-9913-4E0A-AB23-A8AD804C46D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2562DFBF-9913-4E0A-AB23-A8AD804C46D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2562DFBF-9913-4E0A-AB23-A8AD804C46D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +31,14 @@ Global
 		{567FC066-C305-45F8-BDE0-33C44446989E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{567FC066-C305-45F8-BDE0-33C44446989E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{567FC066-C305-45F8-BDE0-33C44446989E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811E31AA-A98D-44D2-8BBE-121D86A61DB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A750A556-5281-43ED-826A-58A36B50A7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A750A556-5281-43ED-826A-58A36B50A7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A750A556-5281-43ED-826A-58A36B50A7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A750A556-5281-43ED-826A-58A36B50A7F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
