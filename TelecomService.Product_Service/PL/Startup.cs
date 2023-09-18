@@ -12,9 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TelecomService.User_Order_Service.Models.Db;
+using TelecomService.Product_Service.BLL;
+using TelecomService.Product_Service.DAL;
+using TelecomService.Product_Service.PL.Middlewares;
 
-namespace TelecomService.User_Order_Service
+namespace TelecomService.Product_Service.PL
 {
     public class Startup
     {
@@ -30,26 +32,13 @@ namespace TelecomService.User_Order_Service
         {
 
             services.AddControllers();
-            services.AddSingleton<IRepository<Client>, ClientsRepository>();
-            services.AddSingleton<IRepository<Order>, OrdersRepository>();
+            services.AddSingleton<IProductsRepository, ProductsRepository>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TelecomService.User_Order_Service", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TelecomService.Product_Service", Version = "v1" });
             });
-            services.AddAuthentication(options => options.DefaultScheme = "Cookies")
-                .AddCookie("Cookies", options =>
-                {
-                    options.Events = new Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationEvents 
-                    {
-                        OnRedirectToLogin = redirectContext => 
-                        {
-                            redirectContext.HttpContext.Response.StatusCode = 401;
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,13 +48,12 @@ namespace TelecomService.User_Order_Service
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TelecomService.User_Order_Service v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TelecomService.Product_Service v1"));
             }
 
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
-            app.UseAuthentication();
 
             app.UseAuthorization();
 

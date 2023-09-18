@@ -1,4 +1,4 @@
-﻿namespace TelecomService.User_Order_Service.Models.Db
+﻿namespace TelecomService.Models
 {
     public class OrderViewModel
     {

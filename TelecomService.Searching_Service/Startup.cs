@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TelecomService.Searching_Service.Middlewares;
 
 namespace TelecomService.Searching_Service
 {
@@ -45,7 +46,7 @@ namespace TelecomService.Searching_Service
             }
 
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
 
             app.UseAuthorization();

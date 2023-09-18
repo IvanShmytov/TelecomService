@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TelecomService.Models;
+using TelecomService.Product_Service.DAL;
 
-namespace TelecomService.User_Order_Service.Models.Db
+namespace TelecomService.Product_Service.BLL
 {
-    public class ProductsRepository : IRepository<Product>
+    public class ProductsRepository : IProductsRepository
     {
         protected BlogContext _db;
         public DbSet<Product> Set { get; private set; }
@@ -31,8 +33,8 @@ namespace TelecomService.User_Order_Service.Models.Db
 
         public async Task<Product> Get(int id)
         {
-            var order = await Set.FindAsync(id);
-            return order;
+            var product = await Set.FindAsync(id);
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetAll()
@@ -45,18 +47,12 @@ namespace TelecomService.User_Order_Service.Models.Db
             item.Price = newItem.Price;
             item.Name = newItem.Name;
             item.In_stock = newItem.In_stock;
-            Set.Update(item);
             await _db.SaveChangesAsync();
-        }
-
-        public Task<IEnumerable<OrderViewModel>> GetStoryOfOrders(Product item)
-        {
-            throw new System.NotImplementedException();
         }
 
         public async Task<Product> GetByName(string Name)
         {
-            return Set.FirstOrDefault(x => x.Name == Name);
+            return await Set.FirstOrDefaultAsync(x => x.Name == Name);
         }
     }
 }

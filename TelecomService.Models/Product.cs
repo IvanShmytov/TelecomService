@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TelecomService.User_Order_Service.Models.Db
+namespace TelecomService.Models
 {
     [Table("Products")]
     public class Product

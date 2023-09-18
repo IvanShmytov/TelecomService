@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TelecomService.User_Order_Service.Models.Db;
+using TelecomService.Models;
 
 namespace TelecomService.Searching_Service.Controllers
 {
@@ -13,9 +14,12 @@ namespace TelecomService.Searching_Service.Controllers
         Uri ClientsOrdersAddress = new Uri("https://localhost:5001/api"); 
         Uri ProductsAddress = new Uri("https://localhost:5002/api");
         HttpClientHandler _httpClientHandler = new HttpClientHandler();
-        public SearchingController()
+        private readonly ILogger<SearchingController> _logger;
+        public SearchingController(ILogger<SearchingController> logger)
         {
             _httpClientHandler.ServerCertificateCustomValidationCallback = (sender, sert, chain, sslPolicyErrors) => { return true; };
+            _logger = logger;
+            _logger.LogDebug(1, "NLog injected into SearchingController");
         }
         /// <summary>
         /// Return all clients
@@ -35,7 +39,8 @@ namespace TelecomService.Searching_Service.Controllers
                         clients = JsonConvert.DeserializeObject<List<Client>>(data);
                     }
                 }
-            }          
+            }
+            _logger.LogInformation("SearchingController - GetAllClients");
             return StatusCode(200, clients);
           
         }
@@ -58,6 +63,7 @@ namespace TelecomService.Searching_Service.Controllers
                     }
                 }
             }
+            _logger.LogInformation("SearchingController - GetClientById");
             return StatusCode(200, client);
         }
         /// <summary>
@@ -79,6 +85,7 @@ namespace TelecomService.Searching_Service.Controllers
                     }
                 }
             }
+            _logger.LogInformation("SearchingController - GetClientByEmail");
             return StatusCode(200, client);
         }
         /// <summary>
@@ -100,6 +107,8 @@ namespace TelecomService.Searching_Service.Controllers
                     }
                 }
             }
+
+            _logger.LogInformation("SearchingController - GetAllProducts");
             return StatusCode(200, products);
 
         }
@@ -122,6 +131,29 @@ namespace TelecomService.Searching_Service.Controllers
                     }
                 }
             }
+            _logger.LogInformation("SearchingController - GetProductById");
+            return StatusCode(200, product);
+        }
+        /// <summary>
+        /// Return product by Name
+        /// </summary>
+        [HttpGet]
+        [Route("GetProductByName/{name}")]
+        public async Task<IActionResult> GetProductByName([FromRoute] string name)
+        {
+            var product = new Product();
+            using (var httpClient = new HttpClient(_httpClientHandler))
+            {
+                using (HttpResponseMessage response = httpClient.GetAsync(ProductsAddress + $"/Products/GetProductByName/GetProductByName/{name}").Result)
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string data = response.Content.ReadAsStringAsync().Result;
+                        product = JsonConvert.DeserializeObject<Product>(data);
+                    }
+                }
+            }
+            _logger.LogInformation("SearchingController - GetProductByName");
             return StatusCode(200, product);
         }
     }
