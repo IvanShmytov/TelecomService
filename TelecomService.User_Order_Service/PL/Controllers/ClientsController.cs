@@ -132,7 +132,7 @@ namespace TelecomService.User_Order_Service.PL.Controllers
         /// <summary>
         /// Update client
         /// </summary>
-        [Authorize (Roles = "Admin")]
+        //[Authorize (Roles = "Admin")]
         [HttpPatch]
         [Route("Update/{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Client newClient)
